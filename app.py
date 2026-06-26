@@ -9,10 +9,18 @@ app = Flask(__name__)
 CORS(app) # Para que Ionic no te marque error de CORS
 
 # Conexión a MongoDB local
-client = MongoClient('mongodb+srv://victorsolis2019:Tobivictor__11@cluster0.syaedri.mongodb.net/?appName=Cluster0')
-db = client['QR']
-coleccion_altas = db['Escaneo']
+MONGO_URI = os.environ.get("MONGO_URI")
 
+try:
+    client = MongoClient(MONGO_URI)
+    # Creamos una base de datos específica para este proyecto
+    db = client['QR']
+    coleccion_usuarios = db['Escaneo']
+    print("¡Conexión exitosa a MongoDB Atlas!")
+except Exception as e:
+    print(f"Error al conectar a MongoDB: {e}")
+    
+#Rutas
 @app.route('/api/generar-alta', methods=['POST'])
 def generar_alta():
     data = request.json
