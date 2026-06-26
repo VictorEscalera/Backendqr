@@ -23,8 +23,16 @@ try:
     print("¡Conexión exitosa a MongoDB Atlas!")
 except Exception as e:
     print(f"Error al conectar a MongoDB: {e}")
+
+# --- Ruta Principal para evitar el 404 en Vercel ---
+@app.route('/', methods=['GET'])
+def inicio():
+    return jsonify({
+        "estado": "Activo",
+        "mensaje": "¡Mi API de Autenticador está en línea en Vercel!"
+    }), 200
     
-# --- Rutas ---
+# --- Rutas de la API ---
 
 @app.route('/api/generar-alta', methods=['POST'])
 def generar_alta():
