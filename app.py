@@ -4,23 +4,28 @@ from pymongo import MongoClient
 import pyotp
 import datetime
 from bson.objectid import ObjectId
+import os # ¡Agregué esto que me faltaba!
 
 app = Flask(__name__)
-CORS(app) # Para que Ionic no te marque error de CORS
+CORS(app) # Para que Ionic no marque error de CORS
 
-# Conexión a MongoDB local
+# Conexión a MongoDB local o en la nube
 MONGO_URI = os.environ.get("MONGO_URI")
 
 try:
     client = MongoClient(MONGO_URI)
     # Creamos una base de datos específica para este proyecto
     db = client['QR']
-    coleccion_usuarios = db['Escaneo']
+    
+    # ¡Corregí el nombre de la variable para que coincida con mis rutas de abajo!
+    coleccion_altas = db['Escaneo'] 
+    
     print("¡Conexión exitosa a MongoDB Atlas!")
 except Exception as e:
     print(f"Error al conectar a MongoDB: {e}")
     
-#Rutas
+# --- Rutas ---
+
 @app.route('/api/generar-alta', methods=['POST'])
 def generar_alta():
     data = request.json
